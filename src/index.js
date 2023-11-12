@@ -1,13 +1,25 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import './index.css'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
+
+import { ThemeProvider, createTheme, responsiveFontSizes } from '@mui/material/styles'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
+const queryClient = new QueryClient()
+
+let theme = createTheme()
+
+theme = responsiveFontSizes(theme)
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <React.StrictMode>
-    <App />
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
+    </QueryClientProvider>
   </React.StrictMode>,
 )
 
