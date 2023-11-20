@@ -1,23 +1,14 @@
-import { Button, CircularProgress, Stack, Typography } from '@mui/material'
+import { Stack, Typography, Button, CircularProgress } from '@mui/material'
 import { useEffect, useState } from 'react'
 
 const LIMIT_TIME = 30
 
-export const QuizPage = ({ score, quiz, isLoading, handleChangePage, handleSubmitScore }) => {
+export const QuizPage = ({ quiz, isLoading, score, handleSubmitScore, handleChangePage, setTime, time }) => {
   const [currentQuiz, setCurrentQuiz] = useState(0)
-  const [time, setTime] = useState(0)
 
-  const handleNextQuiz = (answer) => {
-    if (answer === quiz[currentQuiz].correct_answer) {
-      handleSubmitScore(score + 1)
-    }
-
-    if (currentQuiz === quiz.length - 1) {
-      handleChangePage('result')
-    } else {
-      setCurrentQuiz((prev) => prev + 1)
-    }
-  }
+  useEffect(() => {
+    handleSubmitScore(0)
+  }, [])
 
   useEffect(() => {
     const interval = setInterval(function () {
@@ -33,16 +24,24 @@ export const QuizPage = ({ score, quiz, isLoading, handleChangePage, handleSubmi
     }
   }, [time])
 
-  useEffect(() => {
-    handleSubmitScore(0)
-  }, [])
+  const handleNextQuiz = (answer) => {
+    if (answer === quiz[currentQuiz].correct_answer) {
+      handleSubmitScore(score + 1)
+    }
+
+    if (currentQuiz === quiz.length - 1) {
+      handleChangePage('result')
+    } else {
+      setCurrentQuiz((prev) => prev + 1)
+    }
+  }
 
   return (
     <Stack sx={{ height: '100vh' }} direction="column" justifyContent="center" alignItems="center" gap={3}>
       {isLoading ? (
         <CircularProgress />
       ) : (
-        <QuizComponent title={quiz[currentQuiz].question} handleNextQuiz={handleNextQuiz} />
+        <QuizComponent handleNextQuiz={handleNextQuiz} title={quiz[currentQuiz].question} />
       )}
       <Typography variant="h6">Time: {LIMIT_TIME - time}</Typography>
     </Stack>

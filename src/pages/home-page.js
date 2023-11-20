@@ -1,6 +1,6 @@
-import { Button, Stack, Typography } from '@mui/material'
+import { Stack, Typography, Button } from '@mui/material'
 
-export const HomePage = (props) => {
+export const HomePage = ({ handleChangePage }) => {
   return (
     <Stack
       sx={{ height: '400px', padding: '20%' }}
@@ -11,9 +11,11 @@ export const HomePage = (props) => {
       <Typography align="center" variant="h2" component="h1" gutterBottom>
         Welcome to Trivia Game
       </Typography>
-      <Button onClick={() => props.handleChangePage('quiz')} size="large" variant="contained">
-        Start Trivia
-      </Button>
+
+      <Stack gap={1}>
+        <Button onClick={() => handleChangePage('quiz')} size="large" variant="contained">Start</Button>
+        <Button onClick={() => handleChangePage('ranking')} size="large" variant="outlined">ranking</Button>
+      </Stack>
     </Stack>
   )
 }
