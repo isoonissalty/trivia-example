@@ -1,9 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App'
 import { ThemeProvider, createTheme, responsiveFontSizes } from '@mui/material/styles'
-import reportWebVitals from './reportWebVitals'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import reportWebVitals from './reportWebVitals'
+import App from './App'
+
 
 const queryClient = new QueryClient()
 

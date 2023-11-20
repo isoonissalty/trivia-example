@@ -1,11 +1,13 @@
 import { Button, Stack, Typography } from '@mui/material'
 import { useMutation } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { RankingModal } from './rank-modal'
 import { postRanking } from '../../api/post-ranking'
 
-export const ResultPage = ({ time, score, handleChangePage }) => {
+export const ResultPage = ({ time, score }) => {
+  const navigate = useNavigate()
   const [isShowModal, setIsShowModal] = useState(false)
   const [name, setName] = useState('')
 
@@ -40,10 +42,10 @@ export const ResultPage = ({ time, score, handleChangePage }) => {
           </Typography>
         </Stack>
         <Stack direction="row" justifyContent="center" alignItems="center" spacing={3}>
-          <Button onClick={() => handleChangePage('quiz')} variant="contained" color="success">
+          <Button onClick={() => navigate('/quiz')} variant="contained" color="success">
             Retry
           </Button>
-          <Button onClick={() => handleChangePage('home')} variant="outlined" color="primary">
+          <Button onClick={() => navigate('/')} variant="outlined" color="primary">
             Home
           </Button>
         </Stack>

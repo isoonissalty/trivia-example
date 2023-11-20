@@ -1,6 +1,9 @@
 import { Stack, Typography, Button } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 
-export const HomePage = ({ handleChangePage }) => {
+export const HomePage = () => {
+  const navigate = useNavigate()
+
   return (
     <Stack
       sx={{ height: '400px', padding: '20%' }}
@@ -13,8 +16,8 @@ export const HomePage = ({ handleChangePage }) => {
       </Typography>
 
       <Stack gap={1}>
-        <Button onClick={() => handleChangePage('quiz')} size="large" variant="contained">Start</Button>
-        <Button onClick={() => handleChangePage('ranking')} size="large" variant="outlined">ranking</Button>
+        <Button onClick={() => navigate('/quiz')} size="large" variant="contained">Start</Button>
+        <Button onClick={() => navigate('/ranking')} size="large" variant="outlined">ranking</Button>
       </Stack>
     </Stack>
   )

@@ -1,12 +1,15 @@
 import { Stack, Typography, CircularProgress } from '@mui/material'
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-import { useIntervalEffect } from '../hooks/use-interval-effect'
+import { useIntervalEffect } from '../../hooks/use-interval-effect'
 import { QuizComponent } from './quiz-component'
 
 const LIMIT_TIME = 30
 
-export const QuizPage = ({ quiz, isLoading, score, handleSubmitScore, handleChangePage, setTime, time }) => {
+// NOTE: there are some problem with refreshing the page
+export const QuizPage = ({ quiz, isLoading, score, handleSubmitScore, setTime, time }) => {
+  const navigate = useNavigate()
   const [currentQuiz, setCurrentQuiz] = useState(0)
 
   useEffect(() => {
@@ -17,7 +20,7 @@ export const QuizPage = ({ quiz, isLoading, score, handleSubmitScore, handleChan
 
   useEffect(() => {
     if (time === LIMIT_TIME) {
-      handleChangePage('result')
+      navigate('/result')
     }
   }, [time])
 
@@ -27,7 +30,7 @@ export const QuizPage = ({ quiz, isLoading, score, handleSubmitScore, handleChan
     }
 
     if (currentQuiz === quiz.length - 1) {
-      handleChangePage('result')
+      navigate('/result')
     } else {
       setCurrentQuiz((prev) => prev + 1)
     }
