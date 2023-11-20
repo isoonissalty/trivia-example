@@ -1,24 +1,9 @@
-import { Button, Stack, Typography, Modal, Box, TextField } from '@mui/material'
-import { useEffect, useState } from 'react'
-import axios from 'axios'
+import { Button, Stack, Typography } from '@mui/material'
 import { useMutation } from '@tanstack/react-query'
+import { useEffect, useState } from 'react'
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: '60%',
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-}
-
-const postRanking = async (data) => {
-  const url = 'http://127.0.0.1:8000/rankings/'
-  await axios.post(url, data)
-}
+import { RankingModal } from './rank-modal'
+import { postRanking } from '../../api/post-ranking'
 
 export const ResultPage = ({ time, score, handleChangePage }) => {
   const [isShowModal, setIsShowModal] = useState(false)
@@ -63,28 +48,13 @@ export const ResultPage = ({ time, score, handleChangePage }) => {
           </Button>
         </Stack>
       </Stack>
-      <Modal
+      <RankingModal
+        onSubmit={handleSubmit}
         open={isShowModal}
         onClose={() => setIsShowModal(false)}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Input your Name:
-          </Typography>
-          <TextField
-            id="outlined-basic"
-            label="input your name"
-            variant="outlined"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-          <Button onClick={handleSubmit} variant="contained">
-            Submit
-          </Button>
-        </Box>
-      </Modal>
+        name={name}
+        onChange={(e) => setName(e.target.value)}
+      />
     </>
   )
 }

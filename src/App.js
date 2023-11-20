@@ -1,19 +1,13 @@
 import { Container } from '@mui/material'
-import axios from 'axios'
 import { useQuery } from '@tanstack/react-query'
+import { useState } from 'react'
+
 import { HomePage } from './pages/home-page'
 import { QuizPage } from './pages/quiz-page'
-import { useState } from 'react'
 import { ResultPage } from './pages/result-page'
 import { RankingPage } from './pages/ranking-page'
+import { fetchQuiz } from './api/fetch-quiz'
 
-const TRIVIA_API_URL = 'https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=boolean&encode=url3986'
-
-const fetchQuiz = async () => {
-  const response = await axios.get(TRIVIA_API_URL)
-
-  return response.data.results.map((result) => ({ ...result, question: decodeURIComponent(result.question) }))
-}
 
 function App() {
   const [page, setPage] = useState('result')
@@ -22,21 +16,13 @@ function App() {
 
   const { data: quiz, isLoading } = useQuery({ queryKey: ['quiz'], queryFn: fetchQuiz })
 
-  const handleChangePage = (page) => {
-    setPage(page)
-  }
-
-  const handleSubmitScore = (score) => {
-    setScore(score)
-  }
-
   return (
     <Container maxWidth="sm">
-      {page === 'home' && <HomePage handleChangePage={handleChangePage} />}
+      {page === 'home' && <HomePage handleChangePage={setPage} />}
       {page === 'quiz' && (
         <QuizPage
-          handleChangePage={handleChangePage}
-          handleSubmitScore={handleSubmitScore}
+          handleChangePage={setPage}
+          handleSubmitScore={setScore}
           score={score}
           time={time}
           setTime={setTime}
@@ -44,8 +30,8 @@ function App() {
           isLoading={isLoading}
         />
       )}
-      {page === 'result' && <ResultPage time={time} handleChangePage={handleChangePage} score={score} />}
-      {page === 'ranking' && <RankingPage handleChangePage={handleChangePage} />}
+      {page === 'result' && <ResultPage time={time} handleChangePage={setPage} score={score} />}
+      {page === 'ranking' && <RankingPage handleChangePage={setPage} />}
     </Container>
   )
 }

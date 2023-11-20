@@ -1,5 +1,8 @@
-import { Stack, Typography, Button, CircularProgress } from '@mui/material'
+import { Stack, Typography, CircularProgress } from '@mui/material'
 import { useEffect, useState } from 'react'
+
+import { useIntervalEffect } from '../hooks/use-interval-effect'
+import { QuizComponent } from './quiz-component'
 
 const LIMIT_TIME = 30
 
@@ -10,13 +13,7 @@ export const QuizPage = ({ quiz, isLoading, score, handleSubmitScore, handleChan
     handleSubmitScore(0)
   }, [])
 
-  useEffect(() => {
-    const interval = setInterval(function () {
-      setTime((prev) => prev + 1)
-    }, 1000)
-
-    return () => clearInterval(interval)
-  }, [])
+  useIntervalEffect(() => setTime((prev) => prev + 1), 1000)
 
   useEffect(() => {
     if (time === LIMIT_TIME) {
@@ -48,18 +45,3 @@ export const QuizPage = ({ quiz, isLoading, score, handleSubmitScore, handleChan
   )
 }
 
-const QuizComponent = ({ title, handleNextQuiz }) => {
-  return (
-    <>
-      <Typography variant="h5">{title}</Typography>
-      <Stack direction="row" gap={2}>
-        <Button onClick={() => handleNextQuiz('False')} variant="contained" color="error">
-          False
-        </Button>
-        <Button onClick={() => handleNextQuiz('True')} variant="contained" color="success">
-          True
-        </Button>
-      </Stack>
-    </>
-  )
-}
